@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:insert="fragments/layout :: head"/>
+<body>
+<nav th:insert="fragments/layout :: nav"/>
+<div class="container">
+
+    <hr/>
+    <a th:href="@{/addResidentForm}" class="btn btn-primary">Add Resident</a>
+    <br/><br/>
+    <table class="table table-bordered table-striped" id="residentTable">
+
+        <thead>
+        <tr>
+            <th>Surname</th>
+            <th>Name</th>
+            <th>Phone Number</th>
+            <th>Flat</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="resident: ${residents}">
+            <td th:text="${resident.name}"/>
+            <td th:text="${resident.surname}"/>
+            <td th:text="${resident.phoneNumber}"/>
+            <td th:text="${resident.flat}"/>
+            <td>
+                <a th:href="@{/showUpdateForm(residentId=${resident.id})}" class="btn btn-info">Update</a>
+
+                <a th:href="@{/deleteResident(residentId=${resident.id})}" class="btn btn-danger ml-2">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+
+    </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.25/datatables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#studentTable").DataTable({
+            'aoColumnDefs': [{
+                'bSortable': false,
+                'aTargets': [-1] /* 1st one, start by the right */
+            }]
+        });
+    })
+</script>
+</body>
+</html>

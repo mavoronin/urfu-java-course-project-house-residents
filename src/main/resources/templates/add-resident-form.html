@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+>
+<head th:insert="fragments/layout :: head"/>
+<body>
+<nav th:insert="fragments/layout :: nav"/>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="text-center">Add new resident</h2>
+        </div>
+        <div class="card-body">
+            <form th:action="@{/saveResident}" th:object="${resident}" method="POST" class="form-horizontal">
+
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" th:field="*{name}" class="form-control" placeholder="Enter Name"/>
+                    <p class="text-danger mb-0" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label mt-3">Surname</label>
+                    <input type="text" th:field="*{surname}" class="form-control" placeholder="Enter Surname"/>
+                    <p class="text-danger mb-0" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label mt-3">Phone Number</label>
+                    <input type="tel" th:field="*{phoneNumber}" class="form-control" placeholder="Enter Phone Number"/>
+                    <p class="text-danger mb-0" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label mt-3">Flat</label>
+                    <input type="number" th:field="*{flat}" class="form-control" placeholder="Enter Flat"/>
+                    <p class="text-danger mb-0" th:if="${#fields.hasErrors('flat')}" th:errors="*{flat}"/>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Save</button>
+
+                <input type="hidden" th:field="*{id}"/>
+            </form>
+        </div>
+    </div>
+    <hr/>
+    <a th:href="@{/residents}">Back to list</a>
+</div>
+
+</body>
+</html>
