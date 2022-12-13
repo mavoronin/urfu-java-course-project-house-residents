@@ -1,5 +1,6 @@
 package urfu.mvoronin.course_project_house_residents.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ public class SecurityController {
 
     private UserService userService;
 
+    @Autowired
     public SecurityController(UserService userService) {
         this.userService = userService;
     }

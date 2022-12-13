@@ -12,6 +12,7 @@ public class MvcConfig implements WebMvcConfigurer {
 
     private LoggingInterceptor loggingInterceptor;
 
+    @Autowired
     public MvcConfig(LoggingInterceptor loggingInterceptor)
     {
         this.loggingInterceptor = loggingInterceptor;

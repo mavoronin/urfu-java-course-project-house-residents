@@ -1,5 +1,6 @@
 package urfu.mvoronin.course_project_house_residents.interceptors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -19,14 +20,14 @@ public class LoggingInterceptor implements HandlerInterceptor {
     private UserActionRepository userActionRepository;
     private UserRepository userRepository;
 
+    @Autowired
     public LoggingInterceptor(UserActionRepository userActionRepository, UserRepository userRepository) {
         this.userActionRepository = userActionRepository;
         this.userRepository = userRepository;
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         return true;
     }
 
