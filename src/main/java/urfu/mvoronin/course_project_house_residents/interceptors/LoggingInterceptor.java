@@ -41,35 +41,25 @@ public class LoggingInterceptor implements HandlerInterceptor {
         String controllerName;
         String actionName;
 
-        if (handler instanceof HandlerMethod) {
-            var handlerMethod = (HandlerMethod) handler;
-            controllerName = handlerMethod.getBean().getClass().getSimpleName().replace("Controller", "");
-            actionName = handlerMethod.getMethod().getName();
+        if (!(handler instanceof HandlerMethod handlerMethod)) return;
 
-            var auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null && auth.isAuthenticated()) {
-                var principal = auth.getPrincipal();
+        controllerName = handlerMethod.getBean().getClass().getSimpleName().replace("Controller", "");
+        actionName = handlerMethod.getMethod().getName();
 
-                if (principal == null) {
-                    return;
-                }
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) return;
 
-                if (principal instanceof org.springframework.security.core.userdetails.User springUser) {
-                    var action = new UserAction();
+        var principal = auth.getPrincipal();
+        if (!(principal instanceof org.springframework.security.core.userdetails.User springUser)) return;
 
-                    var user = userRepository.findByName(springUser.getUsername());
+        var action = new UserAction();
+        var user = userRepository.findByName(springUser.getUsername());
+        if (user == null) return;
 
-                    if (user == null) {
-                        return;
-                    }
+        action.setUser(user);
+        action.setActionDate(OffsetDateTime.now());
+        action.setDescription("Action " + actionName + " in controller " + controllerName);
 
-                    action.setUser(user);
-                    action.setActionDate(OffsetDateTime.now());
-                    action.setDescription("Action " + actionName + " in controller " + controllerName);
-
-                    userActionRepository.save(action);
-                }
-            }
-        }
+        userActionRepository.save(action);
     }
 }
